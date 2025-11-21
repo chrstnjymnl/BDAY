@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HAPPY BIRTHDAY CELESTE!</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: "Poppins", sans-serif;
+            background: #fff7fb;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        
+        .bg-hearts {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+        
+        .bg-hearts .bg-heart {
+            position: absolute;
+            bottom: -10vh;
+            font-size: 20px;
+            opacity: 0.12;
+            transform: translateY(0) rotate(0deg);
+            animation-name: floatBg;
+            animation-timing-function: linear;
+            will-change: transform, opacity;
+            filter: drop-shadow(0 4px 10px rgba(255, 100, 170, 0.12));
+        }
+        
+        @keyframes floatBg {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg) scale(1);
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.9;
+            }
+            100% {
+                transform: translateY(-130vh) translateX(30px) rotate(360deg) scale(1.2);
+                opacity: 0;
+            }
+        }
+        
+        .container {
+            text-align: center;
+            background: white;
+            padding: 30px;
+            border-radius: 25px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            width: 92%;
+            max-width: 420px;
+            animation: fadeIn 0.8s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 2;
+        }
+        
+        img.panda {
+            width: 150px;
+            animation: pandaBounce 2s infinite ease-in-out;
+            user-select: none;
+        }
+        
+        button {
+            padding: 14px 22px;
+            background: #ff78b4;
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 18px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            transition: 0.2s ease;
+            animation: popIn 0.6s ease;
+        }
+        
+        button:hover {
+            background: #e0659f;
+            transform: scale(1.05);
+        }
+        
+        button:active {
+            transform: scale(0.96);
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        video {
+            width: 45%;
+            border-radius: 15px;
+        }
+        
+        .heart {
+            position: absolute;
+            bottom: -20px;
+            font-size: 22px;
+            color: #ff8dcf;
+            animation: floatUp 3s linear forwards;
+            opacity: 0.8;
+            z-index: 3;
+            pointer-events: none;
+        }
+        
+        @keyframes pandaBounce {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-12px);
+            }
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.96);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes popIn {
+            0% {
+                transform: scale(0.6);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) scale(0.8);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-300px) scale(1.4);
+                opacity: 0;
+            }
+        }
+        
+        #done-message {
+            font-size: 20px;
+            color: #ff3f93;
+            font-weight: bold;
+            margin-top: 10px;
+            display: none;
+        }
+        
+        @media (max-width: 500px) {
+            img.panda {
+                width: 120px;
+            }
+            button {
+                font-size: 16px;
+                padding: 12px;
+            }
+            .container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="bg-hearts" class="bg-hearts" aria-hidden="true"></div>
+
+    <audio id="clickSound" src="https://www.soundjay.com/buttons/sounds/button-16.mp3"></audio>
+
+    <audio id="bgMusic" src="bg-music.mp3" loop></audio>
+
+    <div class="container" id="start-screen">
+        <img src="https://pngimg.com/uploads/panda/panda_PNG17.png" class="panda" />
+        <h2>HI HELLO INDAAAY! 🐼💗</h2>
+        <button onclick="playClick(); showQuestion();">Start</button>
+    </div>
+
+    <div class="container hidden" id="question-screen">
+        <img src="https://pngimg.com/uploads/panda/panda_PNG19.png" class="panda" />
+        <h2>BIRTHDAY MO BA????🎂</h2>
+        <button onclick="playClick(); playVideo();">OO 🎉</button>
+        <button onclick="playClick(); goBack();">HINDE 😢</button>
+    </div>
+
+    <div class="container hidden" id="video-screen">
+        <img src="https://static.vecteezy.com/system/resources/previews/009/391/683/non_2x/panda-bear-clipart-design-illustration-free-png.png" class="panda" />
+        <h2>Happy Birthday, Celeste! 🎉🐼💖</h2>
+        <h3 style="color:#ff4fa9; margin-top:-10px;">WISHING YOU A VERY HAPPY BIRTHDAY DZAI!✨</h3>
+
+        <div class="video-container">
+            <video id="birthdayVideo" controls autoplay muted>
+                <source src="bday.mp4" type="video/mp4" />
+            </video>
+        </div>
+
+        <div id="done-message">Done! 🎀 Thank you for watching! 💗</div>
+
+        <button onclick="playClick(); goBack();">DONE</button>
+    </div>
+
+    <script>
+        let bgMusicStarted = false;
+        const bgMusic = document.getElementById("bgMusic");
+        const clickSound = document.getElementById("clickSound");
+
+        function playClick() {
+
+            try {
+                clickSound.play();
+            } catch (e) {}
+            createHearts();
+
+            if (!bgMusicStarted) {
+                startBgMusic();
+                bgMusicStarted = true;
+            }
+        }
+
+        function startBgMusic() {
+            try {
+                bgMusic.volume = 0.18;
+                bgMusic.play().catch(() => {});
+            } catch (e) {}
+        }
+
+        function createHearts() {
+            for (let i = 0; i < 6; i++) {
+                let heart = document.createElement("div");
+                heart.classList.add("heart");
+                heart.innerHTML = "💖";
+                heart.style.left = Math.random() * 80 + "%";
+                heart.style.animationDuration = (2 + Math.random()) + "s";
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 3000);
+            }
+        }
+
+        function showQuestion() {
+            document.getElementById("start-screen").classList.add("hidden");
+            document.getElementById("question-screen").classList.remove("hidden");
+        }
+
+        function playVideo() {
+            document.getElementById("question-screen").classList.add("hidden");
+            document.getElementById("video-screen").classList.remove("hidden");
+
+            const vidEl = document.getElementById("birthdayVideo");
+            try {
+                vidEl.muted = false;
+                vidEl.play().catch(() => {});
+                bgMusic.volume = 0.08;
+            } catch (e) {}
+            vidEl.onended = () => {
+                document.getElementById("done-message").style.display = "block";
+                try {
+                    bgMusic.volume = 0.18;
+                } catch (e) {}
+            };
+        }
+
+        function goBack() {
+            document.getElementById("video-screen").classList.add("hidden");
+            document.getElementById("question-screen").classList.add("hidden");
+            document.getElementById("start-screen").classList.remove("hidden");
+
+            document.getElementById("done-message").style.display = "none";
+            let vidEl = document.getElementById("birthdayVideo");
+            if (vidEl) {
+                vidEl.pause();
+                vidEl.currentTime = 0;
+                vidEl.muted = false;
+            }
+            try {
+                bgMusic.volume = 0.18;
+            } catch (e) {}
+        }
+
+        function spawnBgHeart() {
+            const container = document.getElementById('bg-hearts');
+            if (!container) return;
+            const heart = document.createElement('div');
+            heart.className = 'bg-heart';
+            heart.textContent = '💕';
+            const size = 12 + Math.random() * 30;
+            heart.style.fontSize = size + 'px';
+            heart.style.left = (Math.random() * 100) + '%';
+            heart.style.opacity = (0.05 + Math.random() * 0.18).toString();
+            const duration = 8 + Math.random() * 14;
+            heart.style.animationDuration = duration + 's';
+            const delay = Math.random() * 2;
+            heart.style.animationDelay = delay + 's';
+            container.appendChild(heart);
+            heart.addEventListener('animationend', () => heart.remove());
+        }
+
+        function startBackgroundHearts() {
+            for (let i = 0; i < 10; i++) {
+                setTimeout(spawnBgHeart, i * 150);
+            }
+            setInterval(spawnBgHeart, 700);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            startBackgroundHearts();
+        });
+    </script>
+
+</body>
+
+</html>
